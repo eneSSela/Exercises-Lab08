@@ -4,10 +4,19 @@ import it.unibo.deathnote.api.DeathNote;
 
 public class DeathNoteImpl implements DeathNote {
 
+    /**
+     * Returns the rule associated with the given number.
+     *
+     * @param ruleNumber the number of the rule to retrieve (starting from 1)
+     * @return the selected rule
+     * @throws IllegalArgumentException if the index is out of range
+     */
     @Override
     public String getRule(int ruleNumber) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRule'");
+        if(ruleNumber < 1 || ruleNumber > RULES.size()) {
+            throw new IllegalArgumentException("Invalid Rule Number : " + ruleNumber);
+        }
+        return RULES.get(ruleNumber - 1);
     }
 
     @Override
