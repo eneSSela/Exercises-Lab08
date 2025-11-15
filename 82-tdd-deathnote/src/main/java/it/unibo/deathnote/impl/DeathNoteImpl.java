@@ -23,7 +23,7 @@ public class DeathNoteImpl implements DeathNote {
     @Override
     public String getRule(final int ruleNumber) {
         if (ruleNumber < 1 || ruleNumber > RULES.size()) {
-            throw new IllegalArgumentException("Invalid Rule Number : " + ruleNumber);
+            throw new IllegalArgumentException("Invalid Rule Number: " + ruleNumber);
         }
         return RULES.get(ruleNumber - 1);
     }
@@ -114,7 +114,7 @@ public class DeathNoteImpl implements DeathNote {
     public String getDeathCause(final String name) {
         final Death d = deathHumans.get(name);
         if (d == null) {
-            throw new IllegalArgumentException("The name : " + name + "is not written");
+            throw new IllegalArgumentException("The name: " + name + " is not written");
         }
         return d.cause;
     }
@@ -130,17 +130,26 @@ public class DeathNoteImpl implements DeathNote {
     public String getDeathDetails(final String name) {
         final Death d = deathHumans.get(name);
         if (d == null) {
-            throw new IllegalArgumentException("The name : " + name + "is not written");
+            throw new IllegalArgumentException("The name: " + name + " is not written");
         }
         return d.details;
     }
 
+    /**
+     * Checks whether the notebook already contains the given name.
+     *
+     * @param name the name to check
+     * @return true if the name exists, false otherwise
+     */    
     @Override
-    public boolean isNameWritten(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isNameWritten'");
+    public boolean isNameWritten(final String name) {
+        return deathHumans.containsKey(name);
     }
-    
+
+    /**
+     * Class representing a single stored death entry.
+     * Contains timestamps, cause and optional details.
+     */    
     private static final class Death {
         
         private final long timeWritten;
