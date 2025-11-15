@@ -5,6 +5,10 @@ import java.util.Map;
 
 import it.unibo.deathnote.api.DeathNote;
 
+/**
+ * Implementation of the DeathNote interface.
+ * Manages written names, causes, and details with timing constraints.
+ */
 public class DeathNoteImpl implements DeathNote {
 
     private static final int DEATH_CAUSE_TIME = 40;
@@ -125,7 +129,7 @@ public class DeathNoteImpl implements DeathNote {
      * @param name the name to search for
      * @return the stored death details
      * @throws IllegalArgumentException if the name was never written
-     */    
+     */
     @Override
     public String getDeathDetails(final String name) {
         final Death d = deathHumans.get(name);
@@ -140,7 +144,7 @@ public class DeathNoteImpl implements DeathNote {
      *
      * @param name the name to check
      * @return true if the name exists, false otherwise
-     */    
+     */
     @Override
     public boolean isNameWritten(final String name) {
         return deathHumans.containsKey(name);
@@ -149,9 +153,9 @@ public class DeathNoteImpl implements DeathNote {
     /**
      * Class representing a single stored death entry.
      * Contains timestamps, cause and optional details.
-     */    
+     */
     private static final class Death {
-        
+
         private final long timeWritten;
         private long causeTime;
         private String cause;

@@ -49,7 +49,7 @@ class TestDeathNote {
     @Test
     void testRuleNullOrEmpty() {
         final DeathNote notes = new DeathNoteImpl();
-        for(int i = 1; i <= DeathNote.RULES.size(); i++) {
+        for (int i = 1; i <= DeathNote.RULES.size(); i++) {
             final String result = notes.getRule(i);
             assertNotNull(result);
             assertFalse(result.isEmpty());
