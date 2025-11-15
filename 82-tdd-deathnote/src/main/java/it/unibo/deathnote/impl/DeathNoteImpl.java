@@ -75,10 +75,32 @@ public class DeathNoteImpl implements DeathNote {
         return false;
     }
 
+    /**
+     * Writes additional details for the most recently updated death entry.
+     * Details can only be written within 6040 milliseconds after the cause.
+     *
+     * @param details the details of the death
+     * @return true if the details were stored, false otherwise
+     * @throws IllegalArgumentException if details is null
+     * @throws IllegalStateException if no name was written yet
+     */
     @Override
-    public boolean writeDetails(String details) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeDetails'");
+    public boolean writeDetails(final String details) {
+        if (details == null) {
+            throw new IllegalArgumentException("Details is null");
+        }
+        if (lastNameWritten == null) {
+            throw new IllegalStateException("There's no name in DeathNote");
+        }
+
+        final Death d = deathHumans.get(lastNameWritten);
+        final long currentTime = System.currentTimeMillis();
+
+        if (currentTime - d.causeTime <= DEATH_DETAILS_TIME) {
+            d.details = details;
+            return true;
+        }
+        return false;
     }
 
     @Override
