@@ -1,8 +1,14 @@
 package it.unibo.deathnote.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import it.unibo.deathnote.api.DeathNote;
 
 public class DeathNoteImpl implements DeathNote {
+
+    private final Map<String, Death> deathHumans = new HashMap<>();
+    private String lastNameWritten;
 
     /**
      * Returns the rule associated with the given number.
@@ -21,8 +27,13 @@ public class DeathNoteImpl implements DeathNote {
 
     @Override
     public void writeName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeName'");
+        if(name == null) {
+            throw new IllegalArgumentException("Name is null");
+        }
+        if(!deathHumans.containsKey(name)) {
+            deathHumans.put(name, new Death(System.currentTimeMillis()));
+        }
+        lastNameWritten = name;
     }
 
     @Override
@@ -55,4 +66,23 @@ public class DeathNoteImpl implements DeathNote {
         throw new UnsupportedOperationException("Unimplemented method 'isNameWritten'");
     }
     
+    private static final class Death {
+        
+        private final long timeWritten;
+        private long causeTime;
+        private String cause;
+        private String details;
+
+        /**
+         * Creates a new entry with default values.
+         *
+         * @param timeWritten the timestamp when the name was written
+         */
+        Death(final long timeWritten) {
+            this.timeWritten = timeWritten;
+            this.causeTime = timeWritten;
+            this.cause = "heart attack";
+            this.details = "";
+        }
+    }
 }
