@@ -35,4 +35,15 @@ class TestDeathNote {
             assertFalse(e.getMessage().isBlank());
         }
     }
+
+    @Test
+    void testRuleNullOrEmpty() {
+        final DeathNote notes = new DeathNoteImpl();
+        for(int i = 1; i <= DeathNote.RULES.size(); i++) {
+            final String result = notes.getRule(i);
+            assertNotNull(result);
+            assertFalse(result.isEmpty());
+            assertFalse(result.isBlank());
+        }
+    }
 }
