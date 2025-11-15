@@ -18,9 +18,11 @@ class TestDeathNote {
     private static final String CAR_ACCIDENT = "car accident";
     private static final String HEART_ATTACK = "heart attack";
     private static final String KARTING_ACCIDENT = "karting accident";
+    private static final String DEATH_DETAILS = "fell from tree";
     private static final int ZERO = 0;
     private static final int NEGATIVE_NUMBER = -1;
     private static final int DEATH_CAUSE_TIME = 100;
+    private static final int DEATH_DETAILS_TIME = 6000 + DEATH_CAUSE_TIME;
 
     @Test
     void testInvalidNegativeRule() {
@@ -92,5 +94,31 @@ class TestDeathNote {
 
         assertFalse(notes.writeDeathCause(CAR_ACCIDENT));
         assertEquals(KARTING_ACCIDENT, notes.getDeathCause(BOB));
+    }
+
+    @Test 
+    void testWriteDeathDetails() {
+        final DeathNote notes = new DeathNoteImpl();
+        try {
+            notes.writeDetails(DEATH_DETAILS);
+            fail("Excepted IllegalStateException");
+        } catch (final IllegalStateException e) {
+            assertNotNull(e.getMessage());
+            assertFalse(e.getMessage().isEmpty());
+            assertFalse(e.getMessage().isBlank()); 
+        }
+
+        notes.writeName(ALICE);
+        assertEquals("", notes.getDeathDetails(ALICE));
+
+        notes.writeName(BOB);
+        try {
+            Thread.sleep(DEATH_DETAILS_TIME);
+        } catch (final InterruptedException e) {
+            fail("Thread.Sleep was interrupted...\n");
+        }
+
+        assertFalse(notes.writeDetails(DEATH_DETAILS));
+        assertEquals("", notes.getDeathDetails(BOB));
     }
 }
