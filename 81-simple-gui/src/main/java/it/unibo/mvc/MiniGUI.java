@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +44,13 @@ public class MiniGUI {
         panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
         panel.add(write);
         canvas.add(panel, BorderLayout.CENTER);
+
+        /*
+         * Part 2
+        */
+        final TextField result = new TextField("Result");
+        canvas.add(result, BorderLayout.NORTH);
+
         /*
          * Handlers
          */
