@@ -119,10 +119,20 @@ public class DeathNoteImpl implements DeathNote {
         return d.cause;
     }
 
+    /**
+     * Returns the death details for the given name.
+     *
+     * @param name the name to search for
+     * @return the stored death details
+     * @throws IllegalArgumentException if the name was never written
+     */    
     @Override
-    public String getDeathDetails(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDeathDetails'");
+    public String getDeathDetails(final String name) {
+        final Death d = deathHumans.get(name);
+        if (d == null) {
+            throw new IllegalArgumentException("The name : " + name + "is not written");
+        }
+        return d.details;
     }
 
     @Override
