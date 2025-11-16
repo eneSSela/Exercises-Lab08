@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * This class implements the game controller. It orchestrates the game, exposes methods to its observers
  * (the boundaries), and sends results to them.
@@ -15,7 +17,7 @@ import java.util.Objects;
 public final class DrawNumberControllerImpl implements DrawNumberController {
 
     private final DrawNumber model;
-    private List<DrawNumberView> view;
+    private final List<DrawNumberView> view;
 
     /**
      * Builds a new game controller provided a game model.
@@ -28,11 +30,11 @@ public final class DrawNumberControllerImpl implements DrawNumberController {
     }
 
     @Override
-    public void addView(final DrawNumberView view) {
-        Objects.requireNonNull(view, "Cannot set a null view");
-        this.view.add(view);
-        view.setController(this);
-        view.start();
+    public void addView(final DrawNumberView v) {
+        Objects.requireNonNull(v, "Cannot set a null view");
+        this.view.add(v);
+        v.setController(this);
+        v.start();
     }
 
     @Override
@@ -50,6 +52,10 @@ public final class DrawNumberControllerImpl implements DrawNumberController {
     }
 
     @Override
+    @SuppressFBWarnings(
+        value = "DM_EXIT",
+        justification = "Required by exercise. Could be improved declaring \"quit\" method in DrawNumberView."
+    )
     public void quit() {
         /*
          * A bit harsh. A good application should configure the graphics to exit by
@@ -59,5 +65,4 @@ public final class DrawNumberControllerImpl implements DrawNumberController {
          */
         System.exit(0);
     }
-
 }

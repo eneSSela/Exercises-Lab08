@@ -1,14 +1,19 @@
 package it.unibo.mvc;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import it.unibo.mvc.api.DrawNumberController;
+import it.unibo.mvc.api.DrawNumberView;
 import it.unibo.mvc.controller.DrawNumberControllerImpl;
 import it.unibo.mvc.model.DrawNumberImpl;
-import it.unibo.mvc.view.DrawNumberSwingView;
 
 /**
  * Application entry-point.
  */
 public final class LaunchApp {
+
+    private static final int NUM_VIEWS = 3;
 
     private LaunchApp() { }
 
@@ -23,9 +28,36 @@ public final class LaunchApp {
      * @throws IllegalAccessException in case of reflection issues
      * @throws IllegalArgumentException in case of reflection issues
      */
-    public static void main(final String... args) {
-        final var model = new DrawNumberImpl();
-        final DrawNumberController app = new DrawNumberControllerImpl(model);
-        app.addView(new DrawNumberSwingView());
+    public static void main(final String... args)
+            throws ClassNotFoundException,
+                   NoSuchMethodException,
+                   InstantiationException,
+                   IllegalAccessException,
+                   InvocationTargetException {
+
+        final DrawNumberImpl model = new DrawNumberImpl();
+        final DrawNumberController controller = new DrawNumberControllerImpl(model);
+
+        // Array di classi view da caricare
+        final Class<?>[] viewClasses = {
+            it.unibo.mvc.view.DrawNumberStandardOutputView.class,
+            it.unibo.mvc.view.DrawNumberSwingView.class,
+        };
+
+        for (final Class<?> viewClass : viewClasses) {
+            // Prendiamo il costruttore senza parametri
+            final Constructor<?> ctor = viewClass.getConstructor();
+
+            // Creiamo NUM_VIEWS istanze di ciascuna view
+            for (int i = 0; i < NUM_VIEWS; i++) {
+                final Object viewInstance = ctor.newInstance();
+                if (viewInstance instanceof DrawNumberView view) {
+                    controller.addView(view);
+                } else {
+                    throw new IllegalStateException(viewInstance.getClass()
+                            + " non implementa DrawNumberView");
+                }
+            }
+        }
     }
 }

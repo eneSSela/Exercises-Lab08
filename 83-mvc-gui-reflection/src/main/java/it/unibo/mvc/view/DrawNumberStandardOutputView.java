@@ -37,6 +37,6 @@ public final class DrawNumberStandardOutputView implements DrawNumberView {
         /*
          * Print the result description to the standard output.
          */
-        System.out.println(res.getDescription());
+        System.out.println(res.getDescription()); //NOPMD
     }
 }
